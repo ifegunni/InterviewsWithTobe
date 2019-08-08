@@ -1,0 +1,50 @@
+Write a function that takes an array of integers (both positive and negative), and returns the value of the largest sum obtainable from a contiguous sequence that is at least of length 2. 
+    
+    e.g Ex1. 
+            array = [2, -8, 3, -2, 4, 10] 
+            answer = 5. 
+            explanation: 
+                5 is the largest sum possible, and is gotten from [3,-2,4]. 
+
+        Ex2. 
+            array = [1,-2,-3,4,-5]
+            answer = 1 
+            explanation: 
+                1 is the largest sum possible. 
+                
+        Ex3. 
+            array = [1,2,3,4]
+            answer = 10 
+            explanation: 
+                largest possible sum is 10. obtained by adding [1,2,3,4]
+
+
+#################################################################################################
+def task1(a):
+    total = 0
+    start = 0
+    end = 0
+    max_sum =0
+    
+    while end < len(a):
+        value = total + a[end]
+        if value >= total:
+            total = value 
+        
+        elif value < total:
+            total = value - a[start]
+            start += 1
+        
+        max_sum = max(max_sum, total)
+        end += 1
+    
+    return max_sum
+               
+def test():
+    # array = [2, -8, 3, -2, 4, 10] 
+    array = [1,-2,-3,4,-5]
+    result = task1(array)
+    return result
+    
+    
+print(test())
