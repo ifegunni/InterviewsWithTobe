@@ -1,0 +1,103 @@
+
+"""
+['P', 'e', 'r', 'f', 'e', 'c', 't',  'm', 'a', 'k', 'e', 's', ' ', 'p', 'r', 'a', 'c', 't', 'i', 'c', 'e']
+
+reversed string will be:
+
+['p', 'r', 'a', 'c', 't', 'i', 'c', 'e', ' ',  'm', 'a', 'k', 'e', 's', ' ', 'P', 'e', 'r', 'f', 'e', 'c', 't',]
+
+Ex2. 
+input = 'i am here'
+result = here am i
+
+
+approach 1. 
+O(n) + O(n)
+mem = O(n)
+
+approach 2. 
+ - reverse the string from right to left. O(n)
+ - reverse earch work in-place O(n)
+ -> O(1) 
+
+['P', 'e', 'r', 'f', 'e', 'c', 't', ' ',  'm', 'a', 'k', 'e', 's', ' ', 'p', 'r', 'a', 'c', 't', 'i', 'c', 'e']
+
+step1: reverse 
+
+['e', 'c', 'i', 't', 'c', 'a', 'r', 'p', ' ', 's', 'e', 'k', 'a', 'm', ' ', 't', 'c', 'e', 'f', 'r', 'e', 'P']
+
+step2: reverser each word inplace
+
+a = [1,2,3,4]
+
+len(a
+
+"""
+
+def reverseStringFirstApproach(input_character_list):
+    #:: break the words into token
+    reversed_list = []
+    
+    stop  = len(input_character_list) - 1 
+    for i in range(len(input_character_list) - 1, -1, -1):
+        if input_character_list[i] == ' ':
+            reversed_list.append(' ')
+            # stop -= 1
+                
+        if (i == 0) or (i - 1 >= 0 and input_character_list[i - 1] == ' '):
+            #:: copy word into rversed_list
+            print("Reversing {}:{}".format(i,stop + 1))
+            reversed_list.extend(input_character_list[i:stop + 1])
+            stop = i - 2
+            
+    return reversed_list
+        
+            
+        
+def reverseInPlace(input_character_list,start_index, stop_index):
+    while start_index < stop_index: 
+        input_character_list[start_index],input_character_list[stop_index] = input_character_list[stop_index],input_character_list[start_index] 
+        start_index += 1
+        stop_index -= 1
+        
+    return input_character_list
+        
+
+def reverseStringInPlace(input_character_list, delimiter = ' '):
+    #:: reverse the input character list in place 
+    n = len(input_character_list)
+    reverseInPlace(input_character_list,0,n - 1) 
+    start = 0 
+    gathering = False 
+    for i in range(n):
+        if  input_character_list[i] != delimiter  and gathering == False : 
+            gathering = True 
+            start = i 
+            
+        if ( (i == n - 1) or ( (i + 1) < n and input_character_list[i+1] == delimiter )) and gathering == True: 
+            reverseInPlace(input_character_list,start,i)
+            gathering = False 
+            
+    return input_character_list 
+            
+        
+    
+
+def test1(func):
+    a = ['P', 'e', 'r', 'f', 'e', 'c', 't',' ',  'm', 'a', 'k', 'e', 's', ' ', 'p', 'r', 'a', 'c', 't', 'i', 'c', 'e']
+    """
+    stop = i - 2
+
+    i = 12 @'m'
+    stop = 12 - 2 = 10 
+
+    i = 11
+    """
+    print(func(a))
+    
+# test1(reverseStringFirstApproach)
+
+test1(reverseStringInPlace)
+# a = 
+# reverseInPlace([1,2,4,2,5,3,6],0,6)
+# print(a)
