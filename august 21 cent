@@ -1,0 +1,141 @@
+"""
+
+
+Things to discuss...before we leave 
+(i). when you'll start applying for spring internship / fulltime position 
+(ii). What learning structure we would both adopt for this fall simester 
+    - algorithms and data structure 
+    - project 
+    - etc. 
+    
+    
+    
+    
+Question:
+Cracking the coding interview: 8.13 
+
+Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents), and pennies (1 cent), write code to calculate number of ways of representing n cents. 
+
+Example1: 
+    - 5 cents: answer  = 2 ways (1+1+1+1+1, 5)
+    - 10 cents: answer = 3 ways (1+1+1...+1, 5 + 1 * 5, 5 + 5,)
+    - 7 cents: answer  = 2 ways (5 + 1 + 1, 1 * 7)
+    - 30 cents: answer = ? ways 
+
+(You can check the hints)
+    
+findNcents = findncent(n-10) + findNcent(n-5)
+              0 + 1
+              1 way
+              
+
+if n < 0:
+return 0 
+
+if n >= 0 
+return 1
+
+15-->
+    -10-->
+         -5-->
+            -0
+         -0
+    
+    -5-->
+       -0
+       
+       
+                 15
+              10    5 
+            5   0  0  -5
+          0 -5
+          
+          
+                  *
+               10     5
+             10 * 5 None
+
+options:
+(10,5)
+(5 * 3, 0)
+(5,10)
+
+cents = [10,5,1]
+
+n = 15 index = 0
+               ---> 5, 0
+                    ---> -5
+                    ---> 0 index 1
+                    ---> 4
+               
+               ---> 10, 1
+                    ---> 5, 1
+                    ---> 9, 1
+               
+               ---> 14, 2
+                   ----> 13
+                     
+
+
+"""
+# def nCent(n,flag):
+#     if n < 0:
+#         return 0
+#     if n == 0:
+#         return 1
+    
+#     total = 0
+#     cents = [10,5]
+#     for flag in range(2):
+#         cent = cents[flag]
+#         total += nCent(n-10,0)
+        
+#         total += nCent(n-5,1)
+        
+#     print("{} => {},{}".format(n, n-5,n-10))
+#     return  total
+
+
+def findChange(n, possible = [10, 5],index = 0,path = [], cache = {}):
+    
+    if n < 0: 
+        return 0 
+    if n == 0: 
+        print(path, cache)
+        return 1
+    
+    if n in cache:
+        print(path, " plus value ",n)
+        return cache[n]
+       
+    total_ways = 0
+    # index = 0
+    for i in range(index,len(possible)): 
+        cent = possible[i] 
+        path.append(cent)
+        cache[n] = findChange(n - cent,possible,i,path, cache)
+        total_ways += cache[n]
+        path.pop()
+
+    return total_ways
+
+def nCentsIndented(n,indent, factor = 2):
+    print(" "* indent * factor ,"{}-->".format(n))
+    new_indent = indent + 2
+    
+    if n < 0:
+        print(" "*new_indent * factor,0)
+        return 0
+    if n == 0:
+        print(" "*new_indent * factor,1)
+        return 1
+    
+    return nCentsIndented(n-5, new_indent) + nCentsIndented(n-10,new_indent) 
+
+    
+
+# a = nCent(15,0)
+# nCentsIndented(15,0)
+# print(a)
+print(findChange(14,[10,5,1],0,[]))
+#
